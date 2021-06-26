@@ -12,6 +12,8 @@
 /build
 
 # misc
+config.json
+README.old.md
 .DS_Store
 .env.local
 .env.development.local
