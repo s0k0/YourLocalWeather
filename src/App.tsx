@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import config from "./config.json";
 import "./App.css";
+import { WeatherContainer } from "./components/WeatherContainer"
 
 export interface WeatherApiResponse {
   id: number;
@@ -15,7 +16,7 @@ export interface WeatherApiResponse {
   main: {
     temp: number;
     feels_like: number;
-    humidty: number;
+    humidity: number;
   };
   wind: {
     speed: number;
@@ -40,7 +41,12 @@ function App() {
     <div className="App">
       <h1>Weather in: {location}</h1>
       <div className="weather">
-        {data ? JSON.stringify(data) : "Loading data..."}
+        {data ? <WeatherContainer 
+          weather={data.weather[0]}
+          main={data.main}
+          wind={data.wind}
+          clouds={data.clouds}
+        />: "Loading data..."}
       </div>
     </div>
   );
