@@ -31,8 +31,8 @@ export interface WeatherApiResponse {
 function App() {
   const [data, setData] = useState<WeatherApiResponse | null>(null);
   const [location, setLocation] = useState<string>("Berlin");
+  const [loading, setLoading] = useState<boolean>(false);
 
-  //TODO: handle error case when location not found
   //TODO: add tests
 
   useEffect(() => {
@@ -40,10 +40,14 @@ function App() {
   }, [location]);
 
   const getWeatherData = (location: string) => {
+    setLoading(true);
     const url = `${config.baseUrl}/data/2.5/weather?q=${location}&appid=${config.apiKey}&units=${config.units}`;
     fetch(url)
       .then(response => response.json())
-      .then(data => setData(data));
+      .then(data => {
+        data.cod === "404" ? setData(null) : setData(data);
+        setLoading(false);
+      });
   };
 
   const onLocationChange = (value: string) => {
@@ -59,7 +63,9 @@ function App() {
         onSubmit={onLocationChange}
       />
       <div className="weather">
-        {data ? (
+        {loading ? (
+          <p>Loading data...</p>
+        ) : data ? (
           <WeatherContainer
             weather={data.weather[0]}
             main={data.main}
@@ -67,7 +73,10 @@ function App() {
             clouds={data.clouds}
           />
         ) : (
-          "Loading data..."
+          <div>
+            <p> No data found :(.</p>
+            <p> Search for another location instead!</p>
+          </div>
         )}
       </div>
     </div>
