@@ -3,7 +3,7 @@ const formatTemperature = (value: number): string => {
 };
 
 const formatWind = (value: number): string => {
-  return `${Math.round(value)}m/s`;
+  return `${Math.round(value)} m/s`;
 };
 
 export { formatTemperature, formatWind };

@@ -1,0 +1,32 @@
+.location-form {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+    height: 60px;
+}
+
+#location-label {
+    padding-right: 24px;
+}
+
+#location-input, #location-submit {
+    font-size: x-large;
+    height: 48px;
+}
+
+#location-submit {
+    cursor: pointer;
+    margin: 12px;
+    padding:  0 24px;
+    font-size: x-large;
+    color: white;
+    font-weight: 900;
+    border: 1px solid orange;
+    border-radius: 6px;
+    background: orange;
+}
+
+#location-input {
+    width: 300px;
+}
+

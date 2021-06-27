@@ -1,5 +1,5 @@
 import "./WeatherContainer.css";
-import { formatTemperature, formatWind } from "../helpers";
+import { formatTemperature, formatWind } from "../../helpers";
 
 export interface WeatherData {
   weather: {
