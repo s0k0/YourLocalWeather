@@ -11,8 +11,7 @@ const LocationInput = (props: LocationInputProps) => {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    console.log("submit", input);
-    props.onSubmit(input);
+    if (input !== "") props.onSubmit(input);
   };
   return (
     <form className="location-form" onSubmit={handleSubmit}>

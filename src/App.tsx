@@ -33,8 +33,6 @@ function App() {
   const [location, setLocation] = useState<string>("Berlin");
   const [loading, setLoading] = useState<boolean>(false);
 
-  //TODO: add tests
-
   useEffect(() => {
     getWeatherData(location);
   }, [location]);
