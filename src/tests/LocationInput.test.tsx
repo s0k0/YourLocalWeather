@@ -23,14 +23,18 @@ describe("LocationInput Component", () => {
   });
 
   test("uses submit callback on button click", () => {
-    const { getByRole } = render(
+    const { getByRole, getByPlaceholderText } = render(
       <LocationInput
         onSubmit={testInput.onSubmit}
         placeholder={testInput.placeholder}
       />
     );
+    const locatioInput = getByPlaceholderText(testInput.placeholder);
     const submitButton = getByRole("button", { name: "Search" });
+
+    fireEvent.change(locatioInput, { target: { value: 'Berlin' } })
     fireEvent.click(submitButton);
+    
     expect(mockSubmit).toHaveBeenCalled();
   });
 });
