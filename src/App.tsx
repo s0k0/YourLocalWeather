@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
-import config from "./config.json";
 import "./App.css";
 import { WeatherContainer } from "./components/WeatherContainer/WeatherContainer";
 import { LocationInput } from "./components/LocationInput/LocationInput";
+import {
+  RandomLocationInput,
+  LocationCoordinates
+} from "./components/RandomLocationInput/RandomLocationInput";
+import { createUrlFromLocation } from "./helpers";
 
 export interface WeatherApiResponse {
   id: number;
@@ -30,16 +34,19 @@ export interface WeatherApiResponse {
 
 function App() {
   const [data, setData] = useState<WeatherApiResponse | null>(null);
-  const [location, setLocation] = useState<string>("Berlin");
+  const [location, setLocation] = useState<string | LocationCoordinates>(
+    "Berlin"
+  );
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     getWeatherData(location);
   }, [location]);
 
-  const getWeatherData = (location: string) => {
+  const getWeatherData = (location: string | LocationCoordinates) => {
     setLoading(true);
-    const url = `${config.baseUrl}/data/2.5/weather?q=${location}&appid=${config.apiKey}&units=${config.units}`;
+    const url = createUrlFromLocation(location);
+    console.log(url);
     fetch(url)
       .then(response => response.json())
       .then(data => {
@@ -48,22 +55,32 @@ function App() {
       });
   };
 
-  const onLocationChange = (value: string) => {
+  const onLocationChange = (value: string | LocationCoordinates) => {
     setLocation(value);
     getWeatherData(value);
   };
 
+  const headline =
+    typeof location === "string"
+      ? location
+      : `(lat ${location.latitude.toFixed(2)}, lon ${location.longitude.toFixed(
+          2
+        )})`;
+
   return (
-    <div className="App">
-      <h1>Weather in {location}</h1>
-      <LocationInput
-        placeholder="Type a city or region here"
-        onSubmit={onLocationChange}
-      />
-      <div className="weather">
+    <main className="App">
+      <h1>Weather in: "{headline}"</h1>
+      <section className="location-section">
+          <LocationInput
+            placeholder="Type city or region"
+            onSubmit={onLocationChange}
+          />
+          <RandomLocationInput onClick={onLocationChange} />
+      </section>
+      <section className="weather-section">
         {loading ? (
           <p>Loading data...</p>
-        ) : data ? (
+        ) : data?.weather ? (
           <WeatherContainer
             weather={data.weather[0]}
             main={data.main}
@@ -76,8 +93,8 @@ function App() {
             <p> Search for another location instead!</p>
           </div>
         )}
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
 

@@ -9,6 +9,12 @@
   color: white;
 }
 
-.weather {
+.location-section {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+}
+
+.weather-section {
   width: 60%;
 }

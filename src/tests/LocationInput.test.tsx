@@ -29,12 +29,28 @@ describe("LocationInput Component", () => {
         placeholder={testInput.placeholder}
       />
     );
-    const locatioInput = getByPlaceholderText(testInput.placeholder);
+    const locationInput = getByPlaceholderText(testInput.placeholder);
     const submitButton = getByRole("button", { name: "Search" });
 
-    fireEvent.change(locatioInput, { target: { value: 'Berlin' } })
+    fireEvent.change(locationInput, { target: { value: 'Berlin' } })
     fireEvent.click(submitButton);
     
     expect(mockSubmit).toHaveBeenCalled();
+  });
+
+  test("does not fire on empty input", () => {
+    const { getByRole, getByPlaceholderText } = render(
+      <LocationInput
+        onSubmit={testInput.onSubmit}
+        placeholder={testInput.placeholder}
+      />
+    );
+    const locationInput = getByPlaceholderText(testInput.placeholder);
+    const submitButton = getByRole("button", { name: "Search" });
+
+    fireEvent.change(locationInput, { target: { value: '' } })
+    fireEvent.click(submitButton);
+    
+    expect(mockSubmit).not.toHaveBeenCalled();
   });
 });
